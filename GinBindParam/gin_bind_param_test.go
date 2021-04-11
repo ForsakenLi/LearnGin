@@ -8,8 +8,8 @@ import (
 )
 
 type UserInfo struct {
-	Username string `form:"username"`
-	Password string `form:"password"`
+	Username string `form:"username" json:"username"`
+	Password string `form:"password" json:"password"`
 }
 
 func TestBind(t *testing.T) {
@@ -43,6 +43,9 @@ func TestBind(t *testing.T) {
 	})
 
 	r.POST("/form", func(context *gin.Context) {
+		//可以用Paw发送body form类型或者json类型格式的数据
+		//ShouldBind都可以接受的到
+		//json格式的名称也可以通过`json:"xxx"`来指定json格式的值名称
 		var u UserInfo
 		err := context.ShouldBind(&u)
 		if err != nil {
@@ -56,5 +59,5 @@ func TestBind(t *testing.T) {
 			})
 		}
 	})
-	r.Run(":9090")
+	r.Run(":9091")
 }
